@@ -1,11 +1,850 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>caich portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>蔡澈 · AI Agent 工程师</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #08091a;
+      --bg2: #0d1128;
+      --bg3: #111830;
+      --card: #131a35;
+      --card-hover: #192040;
+      --accent: #3b82f6;
+      --accent2: #06b6d4;
+      --accent3: #8b5cf6;
+      --text: #e2e8f0;
+      --text-muted: #7c8db0;
+      --border: #1e2d52;
+      --green: #10b981;
+      --yellow: #f59e0b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(8,9,26,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand { font-weight: 700; font-size: 1.1rem; color: var(--accent); letter-spacing: 0.05em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center;
+      padding: 80px 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59,130,246,0.18), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(139,92,246,0.12), transparent),
+        radial-gradient(ellipse 50% 50% at 20% 70%, rgba(6,182,212,0.10), transparent);
+    }
+    .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 780px; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(59,130,246,0.12);
+      border: 1px solid rgba(59,130,246,0.3);
+      color: var(--accent);
+      font-size: 0.78rem;
+      padding: 0.3rem 1rem;
+      border-radius: 9999px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1.hero-name {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      background: linear-gradient(135deg, #fff 30%, #7dd3fc);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-name-en {
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+      font-weight: 400;
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 620px; margin: 0 auto 2rem;
+    }
+    .hero-tagline strong { color: var(--accent2); }
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .pill {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 0.35rem 0.9rem; border-radius: 9999px;
+      font-size: 0.82rem; color: var(--text-muted);
+    }
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      padding: 0.7rem 1.8rem; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer;
+      text-decoration: none; transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(59,130,246,0.3);
+    }
+    .btn-primary:hover { background: #2563eb; box-shadow: 0 0 30px rgba(59,130,246,0.5); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-label {
+      display: inline-block; color: var(--accent); font-size: 0.78rem;
+      font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 800; color: #fff; margin-bottom: 0.8rem;
+    }
+    .section-sub { color: var(--text-muted); max-width: 560px; margin: 0 auto; }
+
+    /* ── STATS BAR ── */
+    #stats {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+    }
+    .stats-grid {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem; text-align: center;
+    }
+    .stat-val {
+      font-size: 2.4rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;
+    }
+    .about-text p { color: var(--text-muted); margin-bottom: 1.2rem; line-height: 1.8; }
+    .about-text p strong { color: var(--text); }
+    .about-highlights { display: flex; flex-direction: column; gap: 1rem; }
+    .highlight-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.5rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .highlight-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .hi-blue { background: rgba(59,130,246,0.15); }
+    .hi-cyan { background: rgba(6,182,212,0.15); }
+    .hi-purple { background: rgba(139,92,246,0.15); }
+    .hi-green { background: rgba(16,185,129,0.15); }
+    .highlight-card h4 { font-size: 0.92rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .highlight-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg2); }
+    .projects-grid { display: grid; gap: 2.5rem; }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(59,130,246,0.15);
+    }
+    .project-header {
+      padding: 2rem 2.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;
+    }
+    .project-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+    }
+    .proj-blue { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(6,182,212,0.2)); border: 1px solid rgba(59,130,246,0.3); }
+    .proj-purple { background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(139,92,246,0.3); }
+    .project-meta h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .project-meta p { color: var(--text-muted); font-size: 0.88rem; }
+    .project-badges { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
+    .badge {
+      font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem;
+      border-radius: 6px; letter-spacing: 0.03em;
+    }
+    .badge-blue { background: rgba(59,130,246,0.15); color: #7dd3fc; border: 1px solid rgba(59,130,246,0.25); }
+    .badge-cyan { background: rgba(6,182,212,0.15); color: #67e8f9; border: 1px solid rgba(6,182,212,0.25); }
+    .badge-purple { background: rgba(139,92,246,0.15); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.25); }
+    .badge-green { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
+    .badge-yellow { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.25); }
+
+    .project-body { padding: 2rem 2.5rem; }
+    .project-metrics {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .metric-card {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem;
+      text-align: center;
+    }
+    .metric-val {
+      font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .metric-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    .feature-list { display: flex; flex-direction: column; gap: 1rem; }
+    .feature-item {
+      display: flex; gap: 1rem; padding: 1rem 1.2rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .feature-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      margin-top: 0.45rem; flex-shrink: 0;
+    }
+    .dot-blue { background: var(--accent); box-shadow: 0 0 8px rgba(59,130,246,0.6); }
+    .dot-cyan { background: var(--accent2); box-shadow: 0 0 8px rgba(6,182,212,0.6); }
+    .dot-purple { background: var(--accent3); box-shadow: 0 0 8px rgba(139,92,246,0.6); }
+    .dot-green { background: var(--green); box-shadow: 0 0 8px rgba(16,185,129,0.6); }
+    .feature-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .feature-item p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg); }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-group {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.6rem;
+    }
+    .skill-group-header {
+      display: flex; gap: 0.8rem; align-items: center; margin-bottom: 1.2rem;
+    }
+    .skill-icon { font-size: 1.3rem; }
+    .skill-group h3 { font-size: 0.95rem; font-weight: 700; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      background: var(--bg3); border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem; border-radius: 6px;
+      font-size: 0.78rem; color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.08); }
+    .skill-tag.highlight { border-color: rgba(59,130,246,0.4); color: #93c5fd; background: rgba(59,130,246,0.1); }
+
+    /* ── TIMELINE (Experience + Education) ── */
+    #experience { background: var(--bg2); }
+    .timeline { position: relative; padding-left: 2.5rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0.5rem; top: 0; bottom: 0;
+      width: 2px; background: linear-gradient(to bottom, var(--accent), var(--accent3), transparent);
+    }
+    .timeline-item { position: relative; margin-bottom: 3rem; }
+    .timeline-dot {
+      position: absolute; left: -2.3rem; top: 0.2rem;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+      box-shadow: 0 0 12px rgba(59,130,246,0.5);
+    }
+    .timeline-dot.purple { background: var(--accent3); box-shadow: 0 0 12px rgba(139,92,246,0.5); }
+    .timeline-item .time {
+      font-size: 0.75rem; color: var(--accent); font-weight: 600;
+      letter-spacing: 0.05em; margin-bottom: 0.4rem;
+    }
+    .timeline-item h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .timeline-item .org { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 0.8rem; }
+    .timeline-item p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.7; }
+
+    /* ── ACHIEVEMENTS ── */
+    #achievements { background: var(--bg); }
+    .achievements-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .achievement-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.8rem;
+      transition: all 0.25s;
+    }
+    .achievement-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .ach-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .achievement-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .achievement-card p { color: var(--text-muted); font-size: 0.83rem; line-height: 1.6; }
+    .ach-type {
+      display: inline-block; margin-top: 0.8rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em;
+      padding: 0.2rem 0.7rem; border-radius: 9999px;
+    }
+    .ach-patent { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.3); }
+    .ach-award { background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+    .ach-paper { background: rgba(139,92,246,0.15); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.3); }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg2);
+      text-align: center;
+    }
+    .contact-links {
+      display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 2.5rem;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: var(--card); border: 1px solid var(--border);
+      padding: 0.9rem 1.6rem; border-radius: 10px;
+      text-decoration: none; color: var(--text);
+      font-size: 0.88rem; transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.06); }
+    .contact-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2rem; text-align: center;
+      color: var(--text-muted); font-size: 0.82rem;
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.8rem; }
+      section { padding: 4rem 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .project-header { gap: 1rem; }
+      .project-body { padding: 1.5rem; }
+      .project-header { padding: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, I'm caich</h1>
-  <p>This is my portfolio site (v1)</p>
+
+<!-- ── NAV ── -->
+<nav>
+  <span class="nav-brand">CC</span>
+  <ul class="nav-links">
+    <li><a href="#about">关于我</a></li>
+    <li><a href="#projects">项目</a></li>
+    <li><a href="#skills">技能</a></li>
+    <li><a href="#experience">经历</a></li>
+    <li><a href="#contact">联系</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">AI Agent Engineer · 算法工程师</div>
+    <h1 class="hero-name">蔡 澈</h1>
+    <p class="hero-name-en">Calvin Cai</p>
+    <p class="hero-tagline">
+      专注 <strong>AI Agent 落地</strong>，从数据、训练微调、推理优化到工程部署，覆盖完整 AI 实践链路。<br>
+      企业级工时管理 Agent &amp; 建筑成本估算 Agent 项目经验。
+    </p>
+    <div class="hero-pills">
+      <span class="pill">🎓 华南理工大学 硕士</span>
+      <span class="pill">🏢 中建科创斯维尔 算法工程师</span>
+      <span class="pill">📍 在职</span>
+      <span class="pill">🤖 LangGraph · FastAPI · vLLM</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">查看项目</a>
+      <a href="#contact" class="btn btn-outline">联系我</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<div id="stats">
+  <div class="stats-grid">
+    <div class="fade-in">
+      <div class="stat-val">45%</div>
+      <div class="stat-label">Agent 推理延迟降低</div>
+    </div>
+    <div class="fade-in">
+      <div class="stat-val">92%</div>
+      <div class="stat-label">实体解析成功率</div>
+    </div>
+    <div class="fade-in">
+      <div class="stat-val">80%</div>
+      <div class="stat-label">端到端 Top-1 准确率</div>
+    </div>
+    <div class="fade-in">
+      <div class="stat-val">70%</div>
+      <div class="stat-label">工具结果单条压缩率</div>
+    </div>
+    <div class="fade-in">
+      <div class="stat-val">60%</div>
+      <div class="stat-label">减少重复 API 调用</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">About</span>
+      <h2>关于我</h2>
+      <p class="section-sub">具备完整 AI 工程化落地能力的算法工程师</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <p>
+          我是蔡澈，<strong>华南理工大学智能建造硕士</strong>，现就职于中建科创集团斯维尔科技股份有限公司担任算法工程师。
+        </p>
+        <p>
+          具备从<strong>数据集构建、模型训练微调、推理优化到部署落地</strong>的完整 AI 实践能力，以及多个企业级 <strong>AI Agent 项目落地经验</strong>。
+        </p>
+        <p>
+          在 Agent 工程方面，我深度参与了企业工时管理 Agent 和建筑成本估算 Agent 两个生产级项目，积累了 LangGraph 编排、Function Calling 优化、RAG 混合检索、Human-in-the-Loop 等核心实战经验。
+        </p>
+        <p>
+          在科研方面，以第一发明人身份参与发明专利，发表中科院一区 SCI 论文，并获得挑战杯省级奖项。
+        </p>
+      </div>
+      <div class="about-highlights fade-in">
+        <div class="highlight-card">
+          <div class="highlight-icon hi-blue">🤖</div>
+          <div>
+            <h4>AI Agent 工程化</h4>
+            <p>LangGraph + FastAPI + vLLM 全栈落地，生产级 Agent Loop 稳定性保障</p>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon hi-cyan">🔍</div>
+          <div>
+            <h4>RAG & 检索优化</h4>
+            <p>混合检索、向量库、CrossEncoder Reranker，Recall@10 持续迭代提升</p>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon hi-purple">🧠</div>
+          <div>
+            <h4>模型训练与微调</h4>
+            <p>PyTorch · PEFT/LoRA · vLLM 推理优化，全栈深度学习工程能力</p>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon hi-green">📐</div>
+          <div>
+            <h4>领域交叉背景</h4>
+            <p>智能建造硕士 + AI 工程，具备建筑行业垂直场景落地经验</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">Projects</span>
+      <h2>项目经历</h2>
+      <p class="section-sub">企业级 AI Agent 生产落地项目</p>
+    </div>
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <div class="project-icon proj-blue">⏱️</div>
+          <div class="project-meta">
+            <h3>企业工时管理 Agent</h3>
+            <p>中建科创斯维尔 · 算法工程师 · 2025.07 - 至今</p>
+            <div class="project-badges">
+              <span class="badge badge-blue">LangGraph</span>
+              <span class="badge badge-cyan">FastAPI</span>
+              <span class="badge badge-blue">qwen3-8b</span>
+              <span class="badge badge-purple">vLLM</span>
+              <span class="badge badge-green">Function Calling</span>
+              <span class="badge badge-yellow">生产级</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-metrics">
+            <div class="metric-card">
+              <div class="metric-val">45%↓</div>
+              <div class="metric-label">P95 推理延迟降低<br>2.0s → 1.1s</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">92%</div>
+              <div class="metric-label">实体解析成功率<br>（原 ~70%）</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">70%</div>
+              <div class="metric-label">工具结果单条压缩<br>32K 内承载 ~100 条/轮</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">60%↓</div>
+              <div class="metric-label">减少重复 API 调用<br>进程级缓存</div>
+            </div>
+          </div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-dot dot-blue"></div>
+              <div>
+                <h4>Agent 编排引擎优化</h4>
+                <p>基于 LangGraph 设计状态驱动的编排引擎，将意图识别、工具选择、参数抽取、缺参追问合并为单次 Function Calling 调用，替代传统"先分类再抽参"两段式方案，端到端推理延迟降低约 45%（P95 从 ~2.0s 降至 ~1.1s）；LLM 不可用时自动降级至规则路由，保障服务零白屏。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-cyan"></div>
+              <div>
+                <h4>Agent Loop 可靠性 &amp; 上下文工程</h4>
+                <p>实现多轮自循环 Agent Loop 承载知识库多步推理，设计迭代上限、重复调用签名检测、连续异常熔断三重防护，杜绝 token 失控与死循环；针对本地 8B 有限上下文，实现条数+token 双策略历史截断、工具结果递归去噪（单条压缩约 70%），32K context 内稳定承载约 100 条/轮工具结果。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-purple"></div>
+              <div>
+                <h4>多工具 DAG 并行 &amp; 中文语义解析</h4>
+                <p>支持 LLM 单轮多工具调用的 DAG 并行编排与结果汇总；实现中文日期范围解析（区间/枚举/相对日期），将"周一到周五各填 8 小时"自动展开为批量并行任务，多条填报场景耗时由串行 N×T 降至约 1×T。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-green"></div>
+              <div>
+                <h4>统一参数解析层（三级模糊匹配）</h4>
+                <p>以"精确匹配→后缀降级→历史项目最长公共子串模糊匹配"三级策略将"AI平台"等模糊名称解析为后端 ID，实体解析成功率由 ~70% 提升至 ~92%，配合进程级缓存减少约 60% 重复 API 调用。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <div class="project-icon proj-purple">🏗️</div>
+          <div class="project-meta">
+            <h3>建筑成本估算 Agent</h3>
+            <p>中建科创斯维尔 · 算法工程师 · 建筑工程垂直领域</p>
+            <div class="project-badges">
+              <span class="badge badge-purple">RAG</span>
+              <span class="badge badge-blue">LangGraph</span>
+              <span class="badge badge-cyan">FastMCP</span>
+              <span class="badge badge-green">Human-in-the-Loop</span>
+              <span class="badge badge-yellow">Milvus</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-metrics">
+            <div class="metric-card">
+              <div class="metric-val">+14%</div>
+              <div class="metric-label">Recall@10<br>56% → 60%（相对提升）</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">+14%</div>
+              <div class="metric-label">端到端 Top-1<br>70% → 80%（相对提升）</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">全链路</div>
+              <div class="metric-label">RAG→Agent→评测<br>完整落地</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">HITL</div>
+              <div class="metric-label">Human-in-the-Loop<br>可中断/可恢复</div>
+            </div>
+          </div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-dot dot-purple"></div>
+              <div>
+                <h4>CostAgent Workflow 设计</h4>
+                <p>设计并实现 CostAgent，编排"构件解析→知识检索→LLM 决策→工具调用→造价计算"多阶段流程，支持多轮澄清、技能复用及复杂任务自动执行。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-blue"></div>
+              <div>
+                <h4>Human-in-the-Loop 可中断工作流</h4>
+                <p>基于 LangGraph 构建可中断、可恢复的 Workflow，引入人工审核节点与状态持久化机制，实现关键业务节点的人机协同。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-cyan"></div>
+              <div>
+                <h4>建筑造价 RAG 知识库 &amp; MCP 工具</h4>
+                <p>构建建筑造价领域知识库，完成 PDF 解析、结构化切分、向量检索及版本隔离；基于 FastMCP 封装业务工具，实现 Function Calling 与确定性工具调用。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-green"></div>
+              <div>
+                <h4>评测体系 &amp; 持续优化</h4>
+                <p>构建 Recall@k、MRR、Top-1 等评测指标及 Benchmark 工具，驱动 RAG 与 Prompt 持续优化，Recall@10 提升 56%→60%，端到端 Top-1 提升 70%→80%。设计 Prompt 与防幻觉策略，结合规则校验、置信度校准及拒答机制提升稳定性。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">Skills</span>
+      <h2>专业技能</h2>
+      <p class="section-sub">覆盖 AI Agent 工程化完整技术栈</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group fade-in">
+        <div class="skill-group-header">
+          <span class="skill-icon">🤖</span>
+          <h3>AI Agent / 大模型</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">LangGraph</span>
+          <span class="skill-tag highlight">LangChain</span>
+          <span class="skill-tag highlight">Function Calling</span>
+          <span class="skill-tag highlight">MCP</span>
+          <span class="skill-tag">Harness Engineering</span>
+          <span class="skill-tag">Multi-Agent 编排</span>
+          <span class="skill-tag">Human-in-the-Loop</span>
+          <span class="skill-tag">Prompt 工程</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <div class="skill-group-header">
+          <span class="skill-icon">🧠</span>
+          <h3>深度学习</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">PyTorch</span>
+          <span class="skill-tag highlight">Transformer</span>
+          <span class="skill-tag highlight">PEFT / LoRA</span>
+          <span class="skill-tag">全量微调</span>
+          <span class="skill-tag highlight">vLLM</span>
+          <span class="skill-tag">BERT</span>
+          <span class="skill-tag">CLIP</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <div class="skill-group-header">
+          <span class="skill-icon">🔍</span>
+          <h3>检索与 NLP</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">RAG</span>
+          <span class="skill-tag highlight">Hybrid Retrieval</span>
+          <span class="skill-tag">Milvus</span>
+          <span class="skill-tag">Faiss</span>
+          <span class="skill-tag">BGE / M3E</span>
+          <span class="skill-tag">CrossEncoder Reranker</span>
+          <span class="skill-tag">语义解析</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <div class="skill-group-header">
+          <span class="skill-icon">⚙️</span>
+          <h3>工程基础设施</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">Python</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag highlight">FastAPI</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Redis</span>
+          <span class="skill-tag">Prometheus + Grafana</span>
+          <span class="skill-tag">MySQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">Experience &amp; Education</span>
+      <h2>工作 &amp; 教育经历</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot"></div>
+        <div class="time">2025.07 — 至今</div>
+        <h3>算法工程师</h3>
+        <p class="org">中建科创集团斯维尔科技股份有限公司</p>
+        <p>主导企业工时管理 Agent 与建筑成本估算 Agent 的研发工作，覆盖 Agent 编排引擎、RAG 知识库、MCP 工具链、Human-in-the-Loop、评测体系等完整技术栈，实现多项可量化的性能提升指标。</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot purple"></div>
+        <div class="time">2022 — 2025</div>
+        <h3>硕士 · 智能建造</h3>
+        <p class="org">华南理工大学（985 / 双一流）</p>
+        <p>研究方向：智能建造与计算机视觉。发表中科院一区 SCI 论文，参与发明专利，获得挑战杯广东省省级三等奖。</p>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot purple"></div>
+        <div class="time">2018 — 2022</div>
+        <h3>学士 · 力学</h3>
+        <p class="org">三峡大学</p>
+        <p>力学专业，为跨学科进入 AI 与智能建造领域奠定坚实的工程数学基础。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ACHIEVEMENTS ── -->
+<section id="achievements">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">Achievements</span>
+      <h2>荣誉 &amp; 成果</h2>
+    </div>
+    <div class="achievements-grid">
+      <div class="achievement-card fade-in">
+        <div class="ach-icon">📜</div>
+        <h4>发明专利</h4>
+        <p>《一种基于多次同位红外扫描的外墙空鼓识别方法》，第一发明人之一。将红外热成像技术与智能算法结合，实现建筑外墙缺陷自动化检测。</p>
+        <span class="ach-type ach-patent">发明专利</span>
+      </div>
+      <div class="achievement-card fade-in">
+        <div class="ach-icon">🏆</div>
+        <h4>第十七届"挑战杯"广东省省级三等奖</h4>
+        <p>基于图像识别的外墙缺陷检测项目，在全省大学生课外学术科技作品竞赛中获得省级奖项认可。</p>
+        <span class="ach-type ach-award">竞赛奖项</span>
+      </div>
+      <div class="achievement-card fade-in">
+        <div class="ach-icon">📄</div>
+        <h4>中科院一区 SCI 论文（同行评审中）</h4>
+        <p>《Automatic Geometric Quality Inspection of Accessible Ramp》，提出面向无障碍坡道的几何质量自动检测方法，投稿中科院一区 SCI 期刊，同行评审中。</p>
+        <span class="ach-type ach-paper">SCI 一区</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">Contact</span>
+      <h2>联系我</h2>
+      <p class="section-sub">欢迎洽谈 AI Agent 岗位机会</p>
+    </div>
+    <div class="contact-links fade-in">
+      <a href="tel:18757180783" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        18757180783
+      </a>
+      <a href="mailto:calvin519120063@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        calvin519120063@gmail.com
+      </a>
+      <a href="https://github.com/Calvin-Ca" target="_blank" rel="noopener" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+        </svg>
+        github.com/Calvin-Ca
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2025 蔡澈 Calvin Cai · AI Agent Engineer</p>
+</footer>
+
+<script>
+  // Intersection observer for fade-in animations
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
