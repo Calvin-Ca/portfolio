@@ -221,6 +221,7 @@
     }
     .proj-blue { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(6,182,212,0.2)); border: 1px solid rgba(59,130,246,0.3); }
     .proj-purple { background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(139,92,246,0.3); }
+    .proj-orange { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(239,68,68,0.2)); border: 1px solid rgba(245,158,11,0.3); }
     .project-meta h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.4rem; }
     .project-meta p { color: var(--text-muted); font-size: 0.88rem; }
     .project-badges { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
@@ -660,6 +661,75 @@
         </div>
       </div>
 
+      <!-- Project 3 -->
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <div class="project-icon proj-orange">👷</div>
+          <div class="project-meta">
+            <h3>施工现场智能安全巡检 Agent</h3>
+            <p>边缘推理 · 多模态分割 · 日报生成智能体 · 建筑安全垂直场景</p>
+            <div class="project-badges">
+              <span class="badge badge-yellow">YOLOv8</span>
+              <span class="badge badge-blue">LISA</span>
+              <span class="badge badge-cyan">LoRA 微调</span>
+              <span class="badge badge-green">TensorRT</span>
+              <span class="badge badge-purple">LangGraph</span>
+              <span class="badge badge-yellow">Jetson Orin</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-metrics">
+            <div class="metric-card">
+              <div class="metric-val">88%</div>
+              <div class="metric-label">PPE 检测 mAP@0.5<br>安全帽/背心/安全鞋等</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">&lt;30ms</div>
+              <div class="metric-label">边缘端推理延迟<br>TensorRT INT8 量化</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">6 类</div>
+              <div class="metric-label">安全目标检测<br>含危险区域入侵</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val">&lt;2min</div>
+              <div class="metric-label">日报生成耗时<br>全天事件自动汇总</div>
+            </div>
+          </div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-dot dot-green"></div>
+              <div>
+                <h4>边缘端 YOLOv8 实时检测</h4>
+                <p>将 YOLOv8 部署于 Jetson Orin 等边缘设备，检测安全帽、反光背心、安全鞋、手套及危险区域闯入等 6 类目标；通过 TensorRT INT8 量化加速，单帧推理延迟降至 &lt;30ms，支持多路摄像头并行推流；边缘侧完成过滤后仅上传违规帧，大幅降低带宽与云端压力。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-blue"></div>
+              <div>
+                <h4>LISA 多模态语义分割微调</h4>
+                <p>基于 LISA（Language-Image Segmentation Assistant）在施工场景标注数据上进行 LoRA 微调，实现自然语言驱动的像素级分割——如"找出未佩戴安全帽的工人区域"；微调后模型在施工场景 mIoU 提升约 18%，同时通过 LoRA 保留基础模型泛化能力、显著降低显存占用。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-purple"></div>
+              <div>
+                <h4>日报生成智能体</h4>
+                <p>基于 LangGraph 构建结构化日报生成 Agent，聚合全天违规事件流水、区域风险热力图与人员风险评分；Agent 自动执行"数据聚合→异常归因→报告撰写→格式渲染"多阶段流程，生成图文并茂的 PDF 安全报告，并触发多级告警推送（企业微信 / 短信），全流程耗时 &lt;2 分钟。</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot dot-cyan"></div>
+              <div>
+                <h4>端云协同架构</h4>
+                <p>边缘设备通过 MQTT 上报违规事件与压缩图像帧，云端 FastAPI 服务聚合多路摄像头数据；设计本地优先策略——网络中断时边缘侧缓存事件并在恢复后批量同步，保障巡检记录零丢失；Prometheus + Grafana 实时监控各路推理延迟与检测置信度分布。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -732,6 +802,23 @@
           <span class="skill-tag">Redis</span>
           <span class="skill-tag">Prometheus + Grafana</span>
           <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">MQTT</span>
+        </div>
+      </div>
+      <div class="skill-group fade-in">
+        <div class="skill-group-header">
+          <span class="skill-icon">👁️</span>
+          <h3>计算机视觉 &amp; 边缘推理</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">YOLOv8</span>
+          <span class="skill-tag highlight">LISA</span>
+          <span class="skill-tag highlight">TensorRT</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">语义分割</span>
+          <span class="skill-tag">目标检测</span>
+          <span class="skill-tag">Jetson Orin</span>
+          <span class="skill-tag">边缘部署</span>
         </div>
       </div>
     </div>
